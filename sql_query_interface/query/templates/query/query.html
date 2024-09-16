@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Query Interface</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="h3 mb-0 text-center">SQL Query Interface</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.query.label_tag }}
+                    {{ form.query }}
+                </div>
+                <button type="submit" class="btn btn-primary">Execute</button>
+            </form>
+
+            {% if executed_query %}
+                <div class="mt-4">
+                    <h2 class="h5">Executed Query:</h2>
+                    <pre class="bg-light p-3 border">{{ executed_query }}</pre>
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="mt-4">
+                    <h2 class="h5 text-danger">Error:</h2>
+                    <p class="bg-light p-3 border">{{ error }}</p>
+                </div>
+            {% endif %}
+
+            {% if results %}
+                <div class="mt-4">
+                    <h2 class="h5">Results:</h2>
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                {% for column in columns %}
+                                    <th>{{ column }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in results %}
+                                <tr>
+                                    {% for value in row %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Подключение Bootstrap JS и зависимости -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
